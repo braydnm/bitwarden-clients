@@ -32,7 +32,13 @@ const routes: Routes = [
     path: "",
     pathMatch: "full",
     children: [], // Children lets us have an empty component.
-    canActivate: [redirectGuard({ loggedIn: "/vault", loggedOut: "/login", locked: "/lock" })],
+    canActivate: [
+      redirectGuard({
+        loggedIn: { route: "/vault" },
+        loggedOut: { route: "/login" },
+        locked: { route: "/lock", additionalQueryParams: { promptBiometric: true } },
+      }),
+    ],
   },
   {
     path: "lock",
@@ -93,7 +99,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       useHash: true,
-      /*enableTracing: true,*/
+      enableTracing: true,
     }),
   ],
   exports: [RouterModule],
